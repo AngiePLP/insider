@@ -108,9 +108,14 @@
 <script>
 var ENDPOINT = "https://script.google.com/macros/s/AKfycbwvFPG52CGlXHfw1cLPPolod2aGOmPbSH7Dj_cQiWvGLKCSBY34HWslDkGaFotckj7hpQ/exec";
 var f = document.getElementById('lead');
-// Which issue sent them here, e.g. ?from=2026-11-24, so the sheet shows where each request came from.
-var from = (location.search.match(/[?&]from=([0-9-]{10})/) || [])[1];
-if (from) document.getElementById('source').value = 'Newsletter ' + from + ': Think Like a Seller, Buy Like a Pro';
+// Where they came from, so the sheet shows the source of each request:
+// ?from=2026-11-24 (a newsletter issue) or ?from=buyer-box, seller-box, fsbo-box, luxury-box (a printed QR code).
+var from = (location.search.match(/[?&]from=([a-z0-9-]{1,30})/i) || [])[1];
+if (from) {
+  var label = /^\d{4}-\d{2}-\d{2}$/.test(from) ? 'Newsletter ' + from
+    : from.replace(/-/g, ' ').replace(/\b\w/g, function (c) { return c.toUpperCase(); }) + ' QR code';
+  document.getElementById('source').value = label + ': Think Like a Seller, Buy Like a Pro';
+}
 f.querySelectorAll('input[name=copy]').forEach(function (r) {
   r.addEventListener('change', function () { document.getElementById('addr').hidden = f.copy.value !== 'hard copy'; });
 });
