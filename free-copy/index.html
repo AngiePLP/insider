@@ -116,6 +116,16 @@ if (from) {
     : from.replace(/-/g, ' ').replace(/\b\w/g, function (c) { return c.toUpperCase(); }) + ' QR code';
   document.getElementById('source').value = label + ': Think Like a Seller, Buy Like a Pro';
 }
+// ?book=seller shows the seller book, Think Like a Buyer, Win Like a Seller (seller, FSBO and luxury box QR codes).
+if (/[?&]book=seller\b/i.test(location.search)) {
+  var T = 'Think Like a Buyer, Win Like a Seller';
+  var img = document.querySelector('.book img'); img.src = '../assets/book-cover-think-like-a-buyer.jpg'; img.alt = T + ' book cover';
+  document.querySelector('.book h1').innerHTML = 'Reserve your free copy of <em>' + T + '</em>';
+  document.querySelector('.book h1 + p').textContent = 'It walks you through selling your home for top dollar, step by step, in any market, with no insider jargon. Choose a digital copy or a hard copy sent right to your house.';
+  var s = document.getElementById('source'); s.value = s.value.replace('Think Like a Seller, Buy Like a Pro', T);
+  document.getElementById('notes').value = 'Book: ' + T;
+  document.title = 'Reserve Your Free Copy of ' + T + ' | Angela Beckman';
+}
 f.querySelectorAll('input[name=copy]').forEach(function (r) {
   r.addEventListener('change', function () { document.getElementById('addr').hidden = f.copy.value !== 'hard copy'; });
 });
