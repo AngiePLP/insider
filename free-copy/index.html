@@ -125,6 +125,10 @@ f.addEventListener('submit', async function (e) {
   if (wantsPrint && (!f.street.value.trim() || !f.city.value.trim() || !f.state.value.trim() || !/^\d{5}(-\d{4})?$/.test(f.zip.value.trim()))) {
     err.textContent = 'Please fill in your street, city, state, and 5-digit ZIP so I know where to mail your hard copy.'; err.hidden = false; return;
   }
+  // Notes carries the book, copy type and mailing address too, so they reach the sheet with any version of the script.
+  var addr = [f.street.value, f.city.value, f.state.value, f.zip.value].map(function (v) { return v.trim(); }).filter(String).join(', ');
+  document.getElementById('notes').value = 'Book: Think Like a Seller, Buy Like a Pro | ' +
+    (wantsPrint ? 'HARD COPY | Mail to: ' + addr : 'Digital copy');
   var btn = f.querySelector('button'); btn.disabled = true; btn.textContent = 'Sending...';
   try {
     await fetch(ENDPOINT, { method: 'POST', mode: 'no-cors', body: new URLSearchParams(new FormData(f)) });
