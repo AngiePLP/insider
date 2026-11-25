@@ -122,7 +122,11 @@ if (/[?&]book=seller\b/i.test(location.search)) {
   var T = 'Think Like a Buyer, Win Like a Seller';
   var img = document.querySelector('.book img'); img.src = '../assets/book-cover-think-like-a-buyer.jpg'; img.alt = T + ' book cover';
   document.querySelector('.book h1').innerHTML = 'Reserve your free copy of <em>' + T + '</em>';
-  document.querySelector('.book h1 + p').textContent = 'It walks you through selling your home for top dollar, step by step, in any market, with no insider jargon. Choose a digital copy or a hard copy sent right to your house.';
+  document.querySelector('.book h1 + p').textContent = 'It walks you through selling your home for top dollar, step by step, in any market, with no insider jargon. Your digital copy will be emailed to you.';
+  // The seller book is digital only (hard copies are only available for the buyer book).
+  var hc = f.querySelector('input[name=copy][value="hard copy"]'); hc.closest('label').remove();
+  f.querySelector('input[name=copy][value="digital"]').checked = true;
+  document.querySelector('fieldset legend').textContent = 'Your copy';
   var s = document.getElementById('source'); s.value = s.value.replace('Think Like a Seller, Buy Like a Pro', T);
   document.getElementById('notes').value = 'Book: ' + T;
   document.title = 'Reserve Your Free Copy of ' + T + ' | Angela Beckman';
